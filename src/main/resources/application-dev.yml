@@ -1,0 +1,14 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/polling_db
+    username: postgres
+    password: 102030
+    driver-class-name: org.postgresql.Driver
+    jpa:
+      show-sql=true: true
+      hibernate:
+        ddl-auto: none
+
+# Para manter a conexão viva qdo ociosa - para ambiente de produção
+#    testWhileIdle: true
+#    validationQuery: SELECT
