@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import services.webplus.polling.api.models.Account;
 import services.webplus.polling.api.repositories.AccountRepository;
 import services.webplus.polling.api.services.AccountService;
@@ -33,17 +34,20 @@ public class AccountServiceImpl implements AccountService {
         return accountRepository.save(account);
     }
 
+    @Transactional(readOnly = true)
     @Override
     public List<Account> loadAll() {
         return accountRepository.findAll();
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Account findAccountById(String id) throws Exception {
         return accountRepository.findById(id)
                 .orElseThrow(() -> new BadRequestException("Account not found with id "+ id));
     }
 
+    @Transactional(readOnly = true)
     @Override
     public Account findAccountByEmail(String email) throws Exception {
         return accountRepository.findByEmail(email)
