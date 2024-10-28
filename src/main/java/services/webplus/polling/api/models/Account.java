@@ -1,0 +1,44 @@
+package services.webplus.polling.api.models;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.SuperBuilder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import services.webplus.polling.api.enuns.Role;
+import services.webplus.polling.api.web.payloads.SignUpRequest;
+
+import java.util.HashSet;
+import java.util.Set;
+
+@Getter
+@Setter
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "accounts")
+public class Account extends DateAudit{
+
+    private String name;
+    private String username;
+    private String email;
+    private String password;
+
+    @ElementCollection
+    @JoinTable(name = "account_role",
+            joinColumns = @JoinColumn(name = "account_id"))
+    private Set<Role> roles = new HashSet<>();
+
+    public static Account convertRequestToModel(SignUpRequest request, PasswordEncoder passwordEncoder) {
+        return Account.builder()
+                .name(request.name())
+                .username(request.username())
+                .email(request.email())
+                .password(passwordEncoder.encode(request.password()))
+                .roles(Set.of(Role.USER))
+                .build();
+    }
+}
