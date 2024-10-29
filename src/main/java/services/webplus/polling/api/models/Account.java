@@ -10,6 +10,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import services.webplus.polling.api.enuns.Role;
 import services.webplus.polling.api.web.payloads.SignUpRequest;
 
+import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,6 +28,7 @@ public class Account extends DateAudit{
     private String email;
     private String password;
 
+    @Enumerated(EnumType.STRING)
     @ElementCollection
     @JoinTable(name = "account_role",
             joinColumns = @JoinColumn(name = "account_id"))
@@ -39,6 +41,7 @@ public class Account extends DateAudit{
                 .email(request.email())
                 .password(passwordEncoder.encode(request.password()))
                 .roles(Set.of(Role.USER))
+                .createdAt(Instant.now())
                 .build();
     }
 }

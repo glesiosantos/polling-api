@@ -1,5 +1,6 @@
 package services.webplus.polling.api.web.controllers;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,9 +18,9 @@ public class AuthController {
     private AccountService accountService;
 
     @PostMapping("/register")
-    public ResponseEntity<?> singUp(@RequestBody SignUpRequest request) {
+    public ResponseEntity<?> singUp(@RequestBody @Valid SignUpRequest request) {
         var account = accountService.add(request);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("v1/accounts/${id}")
+        URI location = ServletUriComponentsBuilder.fromCurrentContextPath().path("/v1/accounts/{id}")
                 .buildAndExpand(account.getId()).toUri();
         return ResponseEntity.created(location).build();
     }
