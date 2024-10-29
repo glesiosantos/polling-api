@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import services.webplus.polling.api.services.AccountService;
+import services.webplus.polling.api.web.payloads.SignInRequest;
 import services.webplus.polling.api.web.payloads.SignUpRequest;
 
 import java.net.URI;
@@ -26,7 +27,7 @@ public class AuthController {
     }
 
     @PostMapping
-    public ResponseEntity<?> singIn() {
+    public ResponseEntity<?> singIn(@RequestBody @Valid SignInRequest request) {
         return ResponseEntity.ok("token");
     }
 
