@@ -32,3 +32,6 @@ build/
 ### VS Code ###
 .vscode/
 data
+src/main/resources/app.pub
+src/main/resources/app.key
+src/main/resources/application-prod.yml
