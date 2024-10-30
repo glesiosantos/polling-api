@@ -10,3 +10,7 @@ spring:
   flyway:
     enable: true
     location: classpath:/db/migration
+jwt:
+  key:
+    private: app.key
+    public: app.pub

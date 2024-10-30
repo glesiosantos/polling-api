@@ -44,4 +44,8 @@ public class Account extends DateAudit{
                 .createdAt(Instant.now())
                 .build();
     }
+
+    public boolean isCorrectPassword(String password, PasswordEncoder passwordEncoder) {
+        return passwordEncoder.matches(password, this.password);
+    }
 }

@@ -7,8 +7,6 @@ import java.util.List;
 
 public interface AccountService {
 
-    Account add(SignUpRequest request);
-
     List<Account> loadAll();
 
     Account findAccountById(String id) throws Exception;

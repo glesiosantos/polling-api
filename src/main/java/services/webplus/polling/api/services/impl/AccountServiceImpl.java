@@ -23,17 +23,6 @@ public class AccountServiceImpl implements AccountService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Override
-    public Account add(SignUpRequest request) {
-
-        Optional<Account> optional = accountRepository.findByEmail(request.email());
-
-        if(optional.isPresent()) throw new BadCredentialsException("Account already registered with email");
-
-        var account = Account.convertRequestToModel(request, passwordEncoder);
-        return accountRepository.save(account);
-    }
-
     @Transactional(readOnly = true)
     @Override
     public List<Account> loadAll() {

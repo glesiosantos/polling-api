@@ -21,7 +21,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-public class DateAudit extends AbstractEntity {
+public abstract class DateAudit extends AbstractEntity {
 
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
