@@ -14,15 +14,15 @@ import services.webplus.polling.api.models.StandardError;
 @RestControllerAdvice
 public class CustomExceptionHandler {
 
-    @ExceptionHandler({BadCredentialsException.class, AccessDeniedException.class})
+    @ExceptionHandler(BadCredentialsException.class)
     public ResponseEntity<StandardError> handleSecurityException(Exception exception, HttpServletRequest request) {
         var error = StandardError.builder()
                 .messageError(exception.getMessage())
-                .status(exception.hashCode())
+                .status(HttpStatusCode.valueOf(401).value())
                 .timestamp(System.currentTimeMillis())
-                .path(request.getContextPath())
+                .path(request.getServletPath())
                 .build();
-        return ResponseEntity.badRequest().body(error);
+        return ResponseEntity.status(401).body(error);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

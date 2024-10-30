@@ -7,6 +7,7 @@ import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.stereotype.Service;
+import services.webplus.polling.api.enuns.Role;
 import services.webplus.polling.api.models.Account;
 import services.webplus.polling.api.repositories.AccountRepository;
 import services.webplus.polling.api.services.AuthService;
@@ -15,6 +16,7 @@ import services.webplus.polling.api.web.payloads.SignUpRequest;
 
 import java.time.Instant;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -52,10 +54,16 @@ public class AuthServiceImpl implements AuthService {
         var now = Instant.now();
         var expiresIn = 300L; // tempo do token
 
+        // add o perfil do usuário
+        var scopes = account.getRoles().stream().map(Role::getInit).collect(Collectors.joining(" "));
+
+        System.out.println("********** "+scopes);
+
         var claims = JwtClaimsSet.builder()
                 .issuer("polling-api")
                 .subject(account.getId())
                 .issuedAt(now)
+                .claim("scopes", scopes)
                 .expiresAt(now.plusSeconds(expiresIn))
                 .build();
 
